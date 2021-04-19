@@ -1,5 +1,6 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
+
 import ShopNavigator from './navigation/shopNavigator'
 
 import { LogBox } from 'react-native'
