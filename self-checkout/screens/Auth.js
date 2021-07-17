@@ -1,11 +1,10 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, SafeAreaView } from 'react-native'
 
 const AuthScreen = (props) => {
   return (
-    <View>
-      <Text>AUTH</Text>
-    </View>
+    <SafeAreaView style = {styles.center}>
+    </SafeAreaView>
   )
 }
 
