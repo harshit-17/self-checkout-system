@@ -1,11 +1,11 @@
 import React from 'react'
 import { View, Text, StyleSheet, SafeAreaView, TextInput } from 'react-native'
 
-const Input = ({label, type="text", style, secureTextEntry})=>{
+const Input = ({label, type="none", inputStyle, secureTextEntry, labelStyle, value, onChange, keyboardType})=>{
     return(
         <View>
-            <Text style={styles.label}>{label}</Text>
-            <TextInput secureTextEntry={secureTextEntry} textContentType={type} placeholderTextColor={'white'} style={[style, styles.textinput]} placeholder="Type Here" />
+            <Text style={[styles.label, labelStyle ]}>{label}</Text>
+            <TextInput keyboardType={keyboardType} value={value} onChange = {onChange} secureTextEntry={secureTextEntry} textContentType={type} placeholderTextColor={'white'} style={[styles.textinput, inputStyle]} placeholder="Type Here" />
         </View>
     )
 }
