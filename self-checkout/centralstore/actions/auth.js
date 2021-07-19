@@ -3,6 +3,7 @@ export const SIGNUP = 'SIGNUP'
 export const SIGNIN = 'SIGNIN'
 export const AUTHENTICATE = 'AUTHENTICATE'
 export const LOGOUT = 'LOGOUT'
+import apiKey from '../../env/googleApi'
 
 let timer;
 
@@ -44,7 +45,7 @@ export const signup = (email, password) => {
         console.log('email:', email)
         console.log('password', password)
         const resp = await fetch(
-            'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCAL-nAcEXivw5gUtYWugfngRhH70sQNlY', {
+            `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${apiKey}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -81,7 +82,7 @@ export const signin = (email, password) => {
         console.log('email:', email)
         console.log('password', password)
         const resp = await fetch(
-            'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCAL-nAcEXivw5gUtYWugfngRhH70sQNlY', {
+            `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${apiKey}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
