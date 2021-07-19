@@ -1,27 +1,141 @@
-import React, { useState } from 'react'
-import { View, Text, StyleSheet, SafeAreaView, TextInput, Pressable, TouchableOpacity, ScrollView } from 'react-native'
+import React, { useState, useReducer, useCallback } from 'react'
+import { View, Text, StyleSheet, SafeAreaView, TextInput, Pressable, TouchableOpacity, ScrollView, Alert } from 'react-native'
 import Input from '../components/Input'
 import MyButton from '../components/MyButton'
+import ValidationInput from '../components/ValidationInput'
+import { useDispatch } from 'react-redux'
+
+import { createAdminProduct } from '../centralstore/actions/products'
+
+
+const FORM_INPUT_UPDATE = 'FORM_INPUT_UPDATE'
+const formReducer = (state, action) => {
+    if (action.type === FORM_INPUT_UPDATE) {
+        const updatedValues = {
+            ...state.inputValues,
+            [action.input]: action.value
+        }
+        const updatedValidities = {
+            ...state.inputValidities,
+            [action.input]: action.isValid
+        }
+        let updatedFormIsValid = true
+        for (const key in updatedValidities) {
+            updatedFormIsValid = updatedFormIsValid && updatedValidities[key];
+        }
+        return {
+            formIsValid: updatedFormIsValid,
+            inputValidities: updatedValidities,
+            inputValues: updatedValues
+        }
+    }
+    return state
+}
 
 const AddnewProduct = (props) => {
     const setIsAdmin = props.setIsAdmin;
-    const [pname, setPname] = useState('')
-    const [pprice, setPprice] = useState('')
-    const [pweight, setPweight] = useState('')
-    const [pbar, setPbar] = useState('')
-    const [pqty, setPqty] = useState('0')
+    const dispatch = useDispatch();
+
+    const [formState, dispatchFormState] = useReducer(formReducer, {
+        inputValues: {
+            pname: '',
+            pprice: '',
+            pweight: '',
+            pbar: '',
+            pqty: ''
+        },
+        inputValidities: {
+            pname: false,
+            pprice: false,
+            pweight: false,
+            pbar: false,
+            pqty: false
+        },
+        formIsValid: false
+    });
+
+
+    const inputChangeHandler = useCallback(
+        (inputIdentifier, inputValue, inputValidity) => {
+            dispatchFormState({
+                type: FORM_INPUT_UPDATE,
+                value: inputValue,
+                isValid: inputValidity,
+                input: inputIdentifier
+            })
+        }, [dispatchFormState])
+
     const submitHandler = () => {
+        if (!formState.formIsValid) {
+            Alert.alert('Wrong Inputs', 'Kindly correct the form', [{ text: 'Okay!' }])
+            return;
+        }
+        console.log(formState)
+        dispatch(createAdminProduct(formState.inputValues.pname, formState.inputValues.pprice, formState.inputValues.pweight, formState.inputValues.pbar, formState.inputValues.pqty))
         setIsAdmin(true);
     }
     return (
         <ScrollView>
             <View style={styles.cont}>
                 <Text style={styles.text}>Add The Product Details</Text>
-                <Input value={pname} onChange={(text) => { setPname(text) }} labelStyle={styles.labelStyle} inputStyle={styles.inputStyle} label={'Product Name'} />
-                <Input value={pprice} onChange={(text) => { setPprice(text) }} labelStyle={styles.labelStyle} inputStyle={styles.inputStyle} label={'Price'} />
-                <Input value={pweight} onChange={(text) => { setPweight(text) }} labelStyle={styles.labelStyle} inputStyle={styles.inputStyle} label={'Weight'} />
-                <Input value={pbar} onChange={(text) => { setPbar(text) }} labelStyle={styles.labelStyle} inputStyle={styles.inputStyle} label={'Bar Code'} />
-                <Input value={pqty} onChange={(text) => { setPqty(text) }} keyboardType='numeric' labelStyle={styles.labelStyle} inputStyle={styles.inputStyle} label={'Quantity'} />
+                <ValidationInput
+                    id="pname"
+                    keyboardType='default'
+                    label="Product Name"
+                    required
+                    autoCapitalize='words'
+                    errorText="Please enter a valid name"
+                    initialValue=""
+                    onInputChange={inputChangeHandler}
+                    labelStyle={styles.labelStyle}
+                />
+                <ValidationInput
+                    id="pprice"
+                    keyboardType='number-pad'
+                    label="Price"
+                    required
+                    autoCapitalize="none"
+                    errorText="Please enter a valid price"
+                    initialValue=""
+                    onInputChange={inputChangeHandler}
+                    labelStyle={styles.labelStyle}
+                    min={0.1}
+                />
+
+                <ValidationInput
+                    id="pweight"
+                    keyboardType='decimal-pad'
+                    label="Weight"
+                    required
+                    autoCapitalize="none"
+                    errorText="Please enter a valid weight"
+                    initialValue=""
+                    onInputChange={inputChangeHandler}
+                    labelStyle={styles.labelStyle}
+                    min={0.1}
+                />
+                <ValidationInput
+                    id="pbar"
+                    keyboardType='default'
+                    label="Barcode"
+                    required
+                    autoCapitalize="none"
+                    errorText="Please enter a valid barcode"
+                    initialValue=""
+                    onInputChange={inputChangeHandler}
+                    labelStyle={styles.labelStyle}
+                />
+                <ValidationInput
+                    id="pqty"
+                    keyboardType='number-pad'
+                    label="Quantity"
+                    required
+                    autoCapitalize="none"
+                    errorText="Please enter a valid quantity"
+                    initialValue=""
+                    onInputChange={inputChangeHandler}
+                    labelStyle={styles.labelStyle}
+                />
                 <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
                     <MyButton label={'Scan Bar Code'} buttonStyles={styles.sbutton} textStyles={styles.textStyle} />
                     <MyButton onPress={submitHandler} label={'Submit'} buttonStyles={styles.mbutton} textStyles={styles.textStyle} />

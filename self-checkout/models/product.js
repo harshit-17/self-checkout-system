@@ -1,7 +1,7 @@
 class Product {
-    constructor(id, ownerId, title, price, qrcode) {
+    constructor(id, userId, name, price, qrcode) {
         this.id = id;
-        this.ownerId = ownerId;
+        this.userId = userId;
         this.title = title;
         this.price = price;
         this.qrcode = qrcode;

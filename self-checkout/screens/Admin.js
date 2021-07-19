@@ -1,17 +1,20 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { View, Text, StyleSheet, SafeAreaView, TextInput, Pressable, TouchableOpacity, ScrollView } from 'react-native'
 import { FontAwesome5, Ionicons } from '@expo/vector-icons'
 import ItemCard from '../components/ItemCard'
-
+import { useSelector } from 'react-redux'
 
 const Admin = (props) => {
     const setIsAdmin = props.setIsAdmin;
+    const adminProducts = useSelector(state => state.adminReducer)
     const submitHandler = () => {
         setIsAdmin(false);
     }
     const [header, setHeader] = useState(['Sr. No.', 'Product Name', 'Qty.', "Actions"])
     const widthArr = [50, 170, 55, 95]
-
+    useEffect(() => {
+        console.log(adminProducts)
+    })
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <View style={styles.container} >

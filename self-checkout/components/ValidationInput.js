@@ -48,6 +48,7 @@ const Input = (props) => {
         if (props.minLength != null && text.length < props.minLength) {
             isValid = false;
         }
+
         dispatch({ type: INPUT_CHANGE, value: text, isValid: isValid });
         console.log(text)
     };
@@ -85,19 +86,21 @@ const Input = (props) => {
     )
 }
 
+
+
 const styles = StyleSheet.create({
     label: {
         marginTop: 20,
         fontSize: 25,
-        color: 'white',
+        color: 'mediumturquoise',
     },
     textinput: {
         width: '100%',
         marginTop: 10,
         borderWidth: 2,
-        borderColor: 'white',
+        borderColor: '#a9a9a9',
         padding: 9,
-        color: 'white',
+        color: '#a9a9a9',
     },
     errorContainer: {
         marginVertical: 5
