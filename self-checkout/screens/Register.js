@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useReducer, useCallback } from 'react'
 import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, Button, ScrollView, Alert, ActivityIndicator } from 'react-native'
 import AuthCard from '../components/AuthCard'
-import Input from '../components/Input'
+import ValidationInput from '../components/ValidationInput'
 import * as authActions from '../centralstore/actions/auth'
 import { useDispatch } from 'react-redux'
 
@@ -115,7 +115,7 @@ const Register = (props) => {
     return (
         <AuthCard label={`${isSignup ? 'Register' : 'Login'}`}>
             <ScrollView>
-                <Input
+                <ValidationInput
                     id="email"
                     label="E-Mail"
                     keyboardType="email-address"
@@ -126,7 +126,7 @@ const Register = (props) => {
                     onInputChange={inputChangeHandler}
                     initialValue=""
                 />
-                <Input
+                <ValidationInput
                     id="password"
                     label="Password"
                     keyboardType="default"
@@ -142,7 +142,7 @@ const Register = (props) => {
                 />
                 {
                     (isSignup) &&
-                    <Input
+                    <ValidationInput
                         id="password"
                         type="password"
                         label="Confirm Password"

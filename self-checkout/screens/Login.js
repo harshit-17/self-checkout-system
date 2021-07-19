@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, Text, StyleSheet, SafeAreaView, TextInput, Pressable, TouchableOpacity, ScrollView, Button } from 'react-native'
 import AuthCard from '../components/AuthCard'
-import Input from '../components/Input'
+import ValidationInput from '../components/ValidationInput'
 // import { useDispatch } from 'react-redux'
 const Login = () => {
 

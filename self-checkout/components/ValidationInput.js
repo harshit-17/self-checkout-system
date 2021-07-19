@@ -1,11 +1,86 @@
 import React, { useReducer, useEffect } from 'react'
 import { View, Text, StyleSheet, TextInput } from 'react-native'
 
-const Input = ({ label, type = "none", inputStyle, secureTextEntry, labelStyle, value, onChange, keyboardType }) => {
+const INPUT_CHANGE = 'INPUT_CHANGE';
+const INPUT_BLUR = 'INPUT_BLUR';
+
+const inputReducer = (state, action) => {
+    switch (action.type) {
+        case INPUT_CHANGE:
+            return {
+                ...state,
+                value: action.value,
+                isValid: action.isValid
+            };
+        case INPUT_BLUR:
+            return {
+                ...state,
+                touched: true
+            };
+        default:
+            return state;
+    }
+};
+
+const Input = (props) => {
+    const { id, onInputChange, errorText, label, secureTextEntry, type, style } = props;
+    const [inputState, dispatch] = useReducer(inputReducer, {
+        value: props.initialValue ? props.initialValue : '',
+        isValid: props.initiallyValid,
+        touched: false
+    })
+
+    const textChangeHandler = text => {
+        const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        let isValid = true;
+        if (props.required && text.trim().length === 0) {
+            isValid = false;
+        }
+        if (props.email && !emailRegex.test(text.toLowerCase())) {
+            isValid = false;
+        }
+        if (props.min != null && +text < props.min) {
+            isValid = false;
+        }
+        if (props.max != null && +text > props.max) {
+            isValid = false;
+        }
+        if (props.minLength != null && text.length < props.minLength) {
+            isValid = false;
+        }
+        dispatch({ type: INPUT_CHANGE, value: text, isValid: isValid });
+        console.log(text)
+    };
+
+    const lostFocusHandler = () => {
+        dispatch({ type: INPUT_BLUR })
+    };
+
+    useEffect(() => {
+        if (inputState.touched) {
+            onInputChange(id, inputState.value, inputState.isValid)
+        }
+    }, [inputState, onInputChange, id])
+
+
     return (
         <View>
-            <Text style={[styles.label, labelStyle]}>{label}</Text>
-            <TextInput keyboardType={keyboardType} value={value} onChange={onChange} secureTextEntry={secureTextEntry} textContentType={type} placeholderTextColor={'white'} style={[styles.textinput, inputStyle]} placeholder="Type Here" />
+            <Text style={styles.label}>{label}</Text>
+            <TextInput
+                {...props}
+                secureTextEntry={secureTextEntry}
+                textContentType={type}
+                placeholderTextColor={'white'}
+                style={[style, styles.textinput]} placeholder="Type Here"
+                onBlur={lostFocusHandler}
+                onChangeText={textChangeHandler}
+                value={inputState.value}
+            />
+            {!inputState.isValid && inputState.touched && (
+                <View style={styles.errorContainer}>
+                    <Text style={styles.errorText}>{errorText}</Text>
+                </View>
+            )}
         </View>
     )
 }

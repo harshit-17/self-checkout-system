@@ -10,7 +10,6 @@ export const authenticate = (userId, token, expiryDate) => {
     return dispatch => {
         dispatch(setLogoutTimer(expiryDate))
         dispatch({ type: AUTHENTICATE, userId: userId, token: token })
-
     }
 }
 
