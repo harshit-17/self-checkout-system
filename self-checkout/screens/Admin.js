@@ -1,25 +1,48 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, StyleSheet, SafeAreaView, TextInput, Pressable, TouchableOpacity, ScrollView } from 'react-native'
-import { FontAwesome5, Ionicons } from '@expo/vector-icons'
+import { View, Text, StyleSheet, SafeAreaView, TextInput, Pressable, TouchableOpacity, ScrollView, FlatList } from 'react-native'
+import { Ionicons } from '@expo/vector-icons'
 import ItemCard from '../components/ItemCard'
 import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { adminReduceQuantity } from '../centralstore/actions/products'
 
 const Admin = (props) => {
     const setIsAdmin = props.setIsAdmin;
-    const adminProducts = useSelector(state => state.adminReducer)
+
     const submitHandler = () => {
         setIsAdmin(false);
     }
-    const [header, setHeader] = useState(['Sr. No.', 'Product Name', 'Qty.', "Actions"])
-    const widthArr = [50, 170, 55, 95]
-    useEffect(() => {
-        console.log(adminProducts)
-    })
+    const initial = useSelector(state => state.adminReducer)
+    const [productList, setProductList] = useState([])
+    const [refr, setRefe] = useState(0)
+    useEffect(()=>{
+        setProductList(initial)
+    }, [refr])
+
+    const renderList =({item, index})=>{
+        if(item){
+            return(
+                <ItemCard pid={item.pid} handleDecrease={handleDecrease} sr={index+1} pname={item.pname} qty = {item.pqty} />
+            )
+        }
+    }
+    const dispatch = useDispatch()
+
+    const handleDecrease = (pid) =>{
+        dispatch(adminReduceQuantity(pid))
+        setRefe(refr+1)
+    }
+
+    const handleSearch = (text)=>{
+        var newList = initial.filter((item)=>item.pname.toLowerCase().startsWith(text.toLowerCase()))
+        setProductList(newList)
+    }
+
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <View style={styles.container} >
                 <View style={styles.searchCont}>
-                    <TextInput style={styles.textinput} placeholder="Search..." />
+                    <TextInput style={{color: "black"}} placeholderTextColor={'black'} style={styles.textinput} onChangeText ={handleSearch} placeholder="Search..." />
                     <Ionicons name="search" size={45} style={styles.iconSearch} />
                 </View>
                 <View style={styles.prodCont}>
@@ -29,22 +52,11 @@ const Admin = (props) => {
                         <Text style={[styles.border, { flex: 0.2 }]}>Qty.</Text>
                         <Text style={[styles.border, { flex: 0.35 }]}>Actions</Text>
                     </View>
-                    {/* flatlist */}
-                    <ScrollView nestedScrollEnabled={true}>
-                        <ItemCard sr='1' pname="Kurkure" qty="100" />
-                        <ItemCard sr='1' pname="Kurkure" qty="100" />
-                        <ItemCard sr='1' pname="Kurkure" qty="100" />
-                        <ItemCard sr='1' pname="Kurkure" qty="100" />
-                        <ItemCard sr='1' pname="Kurkure" qty="100" />
-                        <ItemCard sr='1' pname="Kurkure" qty="100" />
-                        <ItemCard sr='1' pname="Kurkure" qty="100" />
-                        <ItemCard sr='1' pname="Kurkure" qty="100" />
-                        <ItemCard sr='1' pname="Kurkure" qty="100" />
-                        <ItemCard sr='1' pname="Kurkure" qty="100" />
-                        <ItemCard sr='1' pname="Kurkure" qty="100" />
-                        <ItemCard sr='1' pname="Kurkure" qty="100" />
-                        <ItemCard sr='1' pname="Kurkure" qty="100" />
-                    </ScrollView>
+                    { productList.length !== 0 ? <FlatList
+                        data={productList}
+                        keyExtractor = {(item)=>item.pid.toString()}
+                        renderItem = {renderList}
+                    /> : <Text>No Items Yet</Text>}
                 </View>
                 <View style={[styles.but, { backgroundColor: '#00bfff', alignItems: 'center' }]}>
                     <TouchableOpacity style={styles.mybutton} onPress={submitHandler}>

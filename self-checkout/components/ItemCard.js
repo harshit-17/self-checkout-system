@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, TouchableOpacityBase } from 'react-native'
 import { Entypo } from '@expo/vector-icons'
+import { useDispatch } from 'react-redux'
+import { adminReduceQuantity } from '../centralstore/actions/products'
 
-const ItemCard = ({ sr, pname, qty }) => {
+const ItemCard = ({ sr, pname, qty, pid, handleDecrease }) => {
+
     return (
         <TouchableOpacity onPress={() => { }}>
             <View style={styles.itemCont}>
@@ -11,7 +14,7 @@ const ItemCard = ({ sr, pname, qty }) => {
                     <Text style={[styles.border, { flex: 0.7, }]}>{pname}</Text>
                     <Text style={[styles.border, { flex: 0.2 }]}>{qty}</Text>
                     <View style={[styles.actions, { flex: 0.3 }]}>
-                        <Entypo.Button style={styles.icon} backgroundColor="red" name="minus" />
+                        <Entypo.Button onPress={()=>handleDecrease(pid)} style={styles.icon} backgroundColor="red" name="minus" />
                         <Entypo.Button style={styles.icon} backgroundColor="green" name="plus" />
                     </View>
                 </View>

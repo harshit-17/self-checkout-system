@@ -4,6 +4,7 @@ import AuthCard from '../components/AuthCard'
 import ValidationInput from '../components/ValidationInput'
 import * as authActions from '../centralstore/actions/auth'
 import { useDispatch } from 'react-redux'
+import MyButton from '../components/MyButton'
 
 const FORM_INPUT_UPDATE = 'FORM_INPUT_UPDATE';
 
@@ -104,7 +105,9 @@ const Register = (props) => {
         },
         [dispatchFormState]
     );
-
+    const switchSignup = ()=>{
+        setIsSignUp(prevState => !prevState)
+    }
 
     useEffect(() => {
         if (isError) {
@@ -168,9 +171,10 @@ const Register = (props) => {
                     {isSignup && 'Already have an account'}
                     {!isSignup && 'Do not have an account'}
                 </Text>
-                <Button title={`Switch to ${isSignup ? 'Login' : 'Sign up'}`} color='yellow' onPress={() => {
+                <MyButton label={`Switch to ${isSignup ? 'Login' : 'Sign up'}`} buttonStyles={{backgroundColor: 'yellow'}} textStyles={{color: 'black'}} onPress = {switchSignup} />
+                {/* <Button title={`Switch to ${isSignup ? 'Login' : 'Sign up'}`} color='yellow' onPress={() => {
                     setIsSignUp(prevState => !prevState);
-                }} />
+                }} /> */}
             </ScrollView>
         </AuthCard >
     )
