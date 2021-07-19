@@ -12,7 +12,9 @@ import Register from './screens/Register'
 
 export default function App() {
   // return <ShopNavigator />
-  return <AddnewProduct/>
+  return (
+      <AddnewProduct/>
+  )
 }
 
 const styles = StyleSheet.create({})

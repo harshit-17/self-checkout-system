@@ -1,13 +1,14 @@
 import React, {useState} from 'react'
-import { View, Text, StyleSheet, SafeAreaView, TextInput, Pressable, TouchableOpacity, ScrollView } from 'react-native'
+import { View, Text, StyleSheet, SafeAreaView, TextInput, TouchableOpacity, ScrollView } from 'react-native'
 import { FontAwesome5, Ionicons } from '@expo/vector-icons'
 import ItemCard from '../components/ItemCard'
 
 
 const Admin = ()=>{
 
-    const [header, setHeader] = useState(['Sr. No.', 'Product Name', 'Qty.', "Actions"])
-    const widthArr  = [50, 170, 55, 95]
+    const [products, setProducts] = useState([])
+
+
 
     return(
         <SafeAreaView style={{flex: 1}}>
