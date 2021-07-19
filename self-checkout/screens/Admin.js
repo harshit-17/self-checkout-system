@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, StyleSheet, SafeAreaView, TextInput, Pressable, TouchableOpacity, ScrollView, FlatList } from 'react-native'
+import { View, Text, StyleSheet, SafeAreaView, TextInput, Pressable, TouchableOpacity, ScrollView } from 'react-native'
 import { FontAwesome5, Ionicons } from '@expo/vector-icons'
 import ItemCard from '../components/ItemCard'
-import { useDispatch, useSelector } from 'react-redux'
-import { adminReduceQuantity } from '../centralstore/actions/products'
-
+import { useSelector } from 'react-redux'
 
 const Admin = (props) => {
     const setIsAdmin = props.setIsAdmin;
+    
     const submitHandler = () => {
         setIsAdmin(false);
     }

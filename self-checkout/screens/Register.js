@@ -141,7 +141,6 @@ const Register = (props) => {
                     errorText="Please enter a valid password."
                     onInputChange={inputChangeHandler}
                     initialValue=""
-
                 />
                 {
                     (isSignup) &&
