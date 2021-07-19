@@ -1,48 +1,50 @@
-import React, {useState} from 'react'
-import { View, Text, StyleSheet, SafeAreaView, TextInput, TouchableOpacity, ScrollView } from 'react-native'
+import React, { useState } from 'react'
+import { View, Text, StyleSheet, SafeAreaView, TextInput, Pressable, TouchableOpacity, ScrollView } from 'react-native'
 import { FontAwesome5, Ionicons } from '@expo/vector-icons'
 import ItemCard from '../components/ItemCard'
 
 
-const Admin = ()=>{
+const Admin = (props) => {
+    const setIsAdmin = props.setIsAdmin;
+    const submitHandler = () => {
+        setIsAdmin(false);
+    }
+    const [header, setHeader] = useState(['Sr. No.', 'Product Name', 'Qty.', "Actions"])
+    const widthArr = [50, 170, 55, 95]
 
-    const [products, setProducts] = useState([])
-
-
-
-    return(
-        <SafeAreaView style={{flex: 1}}>
+    return (
+        <SafeAreaView style={{ flex: 1 }}>
             <View style={styles.container} >
                 <View style={styles.searchCont}>
                     <TextInput style={styles.textinput} placeholder="Search..." />
-                    <Ionicons name="search" size={45} style={styles.iconSearch}/>
+                    <Ionicons name="search" size={45} style={styles.iconSearch} />
                 </View>
                 <View style={styles.prodCont}>
                     <View style={styles.header}>
-                        <Text style={[styles.border, {flex: 0.18,}]} >Sr. No.</Text>
-                        <Text style={[styles.border,{flex: 0.7,}]}>Product Name</Text>
-                        <Text style={[styles.border, {flex: 0.2}]}>Qty.</Text>
-                        <Text style={[styles.border,{flex: 0.35}]}>Actions</Text>
+                        <Text style={[styles.border, { flex: 0.18, }]} >Sr. No.</Text>
+                        <Text style={[styles.border, { flex: 0.7, }]}>Product Name</Text>
+                        <Text style={[styles.border, { flex: 0.2 }]}>Qty.</Text>
+                        <Text style={[styles.border, { flex: 0.35 }]}>Actions</Text>
                     </View>
-                    <ScrollView nestedScrollEnabled = {true}>
-                        <ItemCard sr= '1' pname="Kurkure" qty= "100" />
-                        <ItemCard sr= '1' pname="Kurkure" qty= "100" />
-                        <ItemCard sr= '1' pname="Kurkure" qty= "100" />
-                        <ItemCard sr= '1' pname="Kurkure" qty= "100" />
-                        <ItemCard sr= '1' pname="Kurkure" qty= "100" />
-                        <ItemCard sr= '1' pname="Kurkure" qty= "100" />
-                        <ItemCard sr= '1' pname="Kurkure" qty= "100" />
-                        <ItemCard sr= '1' pname="Kurkure" qty= "100" />
-                        <ItemCard sr= '1' pname="Kurkure" qty= "100" />
-                        <ItemCard sr= '1' pname="Kurkure" qty= "100" />
-                        <ItemCard sr= '1' pname="Kurkure" qty= "100" />
-                        <ItemCard sr= '1' pname="Kurkure" qty= "100" />
-                        <ItemCard sr= '1' pname="Kurkure" qty= "100" />
+                    <ScrollView nestedScrollEnabled={true}>
+                        <ItemCard sr='1' pname="Kurkure" qty="100" />
+                        <ItemCard sr='1' pname="Kurkure" qty="100" />
+                        <ItemCard sr='1' pname="Kurkure" qty="100" />
+                        <ItemCard sr='1' pname="Kurkure" qty="100" />
+                        <ItemCard sr='1' pname="Kurkure" qty="100" />
+                        <ItemCard sr='1' pname="Kurkure" qty="100" />
+                        <ItemCard sr='1' pname="Kurkure" qty="100" />
+                        <ItemCard sr='1' pname="Kurkure" qty="100" />
+                        <ItemCard sr='1' pname="Kurkure" qty="100" />
+                        <ItemCard sr='1' pname="Kurkure" qty="100" />
+                        <ItemCard sr='1' pname="Kurkure" qty="100" />
+                        <ItemCard sr='1' pname="Kurkure" qty="100" />
+                        <ItemCard sr='1' pname="Kurkure" qty="100" />
                     </ScrollView>
                 </View>
-                <View style={[styles.but, {backgroundColor: '#00bfff', alignItems: 'center'}]}>
-                    <TouchableOpacity style={styles.mybutton}>
-                        <Text style ={{color: 'white'}}>Add new Product</Text>
+                <View style={[styles.but, { backgroundColor: '#00bfff', alignItems: 'center' }]}>
+                    <TouchableOpacity style={styles.mybutton} onPress={submitHandler}>
+                        <Text style={{ color: 'white' }}>Add new Product</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -74,7 +76,7 @@ const styles = StyleSheet.create({
         flex: 0.1,
     },
     iconSearch: {
-        flex: 0.2, 
+        flex: 0.2,
         alignSelf: 'flex-end',
         textAlign: 'center',
         color: '#00bfff'
@@ -87,7 +89,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
     },
-    border:{
+    border: {
         borderWidth: 2,
         textAlign: 'center',
         padding: 10,
@@ -95,7 +97,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         borderColor: '#0BE881'
     },
-    mybutton:{
+    mybutton: {
         backgroundColor: '#00bfff',
         borderWidth: 1,
         padding: 10,
@@ -105,7 +107,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         borderColor: 'white'
     },
-    but :{
+    but: {
         flex: 0.1
     }
 })

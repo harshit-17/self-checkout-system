@@ -14,6 +14,8 @@ import Register from '../screens/Register'
 import StartupScreen from '../screens/StartupScreen'
 import { useDispatch } from 'react-redux'
 import * as authActions from '../centralstore/actions/auth'
+import AdminScreen from '../screens/Admin'
+import AdminWrapper from '../screens/AdminWrapper'
 
 const defNavSettings = {
   headerStyle: {
@@ -136,9 +138,20 @@ const AuthNavigator = createStackNavigator(
     defaultNavigationOptions: defNavSettings
   }
 );
+
+const AdminNavigator = createStackNavigator(
+  {
+    Admin: AdminWrapper
+  },
+  {
+    defaultNavigationOptions: defNavSettings
+  }
+)
+
 const ShopNavigator = createSwitchNavigator({
-  Startup: StartupScreen,
-  Auth: AuthNavigator,
-  Shop: MainNavigator
+  // Startup: StartupScreen,
+  // Auth: AuthNavigator,
+  Admin: AdminNavigator,
+  // Shop: MainNavigator,
 })
 export default createAppContainer(ShopNavigator)
