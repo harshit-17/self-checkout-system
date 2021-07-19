@@ -14,9 +14,10 @@ const Login = () => {
                     <Text style={styles.text}>Login</Text>
                 </TouchableOpacity>
                 <Text style={styles.help}>Do not have an account, </Text>
-                <View style={styles.btn}>
-                    <Button title="Register Here" color='yellow' onPress={() => { }} />
-                </View>
+                <TouchableOpacity style={styles.btn}>
+                    {/* <Button title="Register Here" color='yellow' onPress={() => { }} /> */}
+                    <Text>Register</Text>
+                </TouchableOpacity>
             </ScrollView>
         </AuthCard>
     )
