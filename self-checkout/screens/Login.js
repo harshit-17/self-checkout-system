@@ -1,23 +1,29 @@
 import React from 'react'
-import { View, Text, StyleSheet, SafeAreaView, TextInput, Pressable, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, SafeAreaView, TextInput, Pressable, TouchableOpacity, ScrollView, Button } from 'react-native'
 import AuthCard from '../components/AuthCard'
-import Input from '../components/Input'
+import ValidationInput from '../components/ValidationInput'
+// import { useDispatch } from 'react-redux'
+const Login = () => {
 
-const Login = ()=>{
-    return(
+    return (
         <AuthCard label={'Login'}>
-            <Input label="E-Mail" type="emailAddress" />
-            <Input label="Password" type="password" secureTextEntry={true} />
-            <TouchableOpacity style={styles.mybutton}>
-                <Text style={styles.text}>Login</Text>
-            </TouchableOpacity>
-            <Text style={styles.help}>Do not have an account, <Text style={{color: 'lightgreen'}}>Register</Text> here!!</Text>
+            <ScrollView>
+                <Input label="E-Mail" type="emailAddress" />
+                <Input label="Password" type="password" secureTextEntry={true} />
+                <TouchableOpacity style={styles.mybutton}>
+                    <Text style={styles.text}>Login</Text>
+                </TouchableOpacity>
+                <Text style={styles.help}>Do not have an account, </Text>
+                <View style={styles.btn}>
+                    <Button title="Register Here" color='yellow' onPress={() => { }} />
+                </View>
+            </ScrollView>
         </AuthCard>
     )
 }
 
 const styles = StyleSheet.create({
-    mybutton:{
+    mybutton: {
         backgroundColor: 'white',
         padding: 10,
         marginTop: 20,
@@ -31,11 +37,14 @@ const styles = StyleSheet.create({
         fontWeight: '900',
         fontSize: 20
     },
-    help:{
+    help: {
         color: 'white',
         margin: 30,
         fontSize: 15,
         alignSelf: 'center'
+    },
+    btn: {
+
     }
 })
 

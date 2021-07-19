@@ -1,10 +1,10 @@
 import React from 'react'
-import { View, Text, StyleSheet, SafeAreaView } from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 
-const AuthCard = ({children, label})=>{
-    return(
+const AuthCard = ({ children, label }) => {
+    return (
         <View style={styles.cardConatiner} >
-            <View style = {styles.headingCont}>
+            <View style={styles.headingCont}>
                 <Text style={styles.heading} >{label}</Text>
             </View>
             <View style={styles.card}>
@@ -15,12 +15,12 @@ const AuthCard = ({children, label})=>{
 }
 
 const styles = StyleSheet.create({
-    cardConatiner:{
+    cardConatiner: {
         flex: 1,
         backgroundColor: 'white',
         justifyContent: 'space-between',
     },
-    card:{
+    card: {
         backgroundColor: '#5E42F2',
         flex: 0.6,
         borderTopLeftRadius: 25,
