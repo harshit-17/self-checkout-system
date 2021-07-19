@@ -26,6 +26,7 @@ const Admin = (props) => {
                         <Text style={[styles.border, { flex: 0.2 }]}>Qty.</Text>
                         <Text style={[styles.border, { flex: 0.35 }]}>Actions</Text>
                     </View>
+                    {/* flatlist */}
                     <ScrollView nestedScrollEnabled={true}>
                         <ItemCard sr='1' pname="Kurkure" qty="100" />
                         <ItemCard sr='1' pname="Kurkure" qty="100" />
