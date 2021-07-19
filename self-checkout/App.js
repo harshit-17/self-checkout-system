@@ -11,10 +11,12 @@ import { LogBox } from 'react-native'
 import Register from './screens/Register'
 import authReducer from './centralstore/reducers/auth'
 import NavigationContainer from './navigation/navigationContainer'
+import {adminReducer} from './centralstore/reducers/products'
 LogBox.ignoreAllLogs()
 
 const rootReducer = combineReducers({
-  auth: authReducer
+  auth: authReducer,
+  adminReducer: adminReducer
 })
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
