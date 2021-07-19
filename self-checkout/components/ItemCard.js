@@ -4,7 +4,7 @@ import { Entypo } from '@expo/vector-icons'
 import { useDispatch } from 'react-redux'
 import { adminReduceQuantity } from '../centralstore/actions/products'
 
-const ItemCard = ({ sr, pname, qty, pid, handleIncrease }) => {
+const ItemCard = ({ sr, pname, qty, pid, handleDecrease }) => {
 
     return (
         <TouchableOpacity onPress={() => { }}>
@@ -14,7 +14,7 @@ const ItemCard = ({ sr, pname, qty, pid, handleIncrease }) => {
                     <Text style={[styles.border, { flex: 0.7, }]}>{pname}</Text>
                     <Text style={[styles.border, { flex: 0.2 }]}>{qty}</Text>
                     <View style={[styles.actions, { flex: 0.3 }]}>
-                        <Entypo.Button onPress={()=>handleIncrease(pid)} style={styles.icon} backgroundColor="red" name="minus" />
+                        <Entypo.Button onPress={()=>handleDecrease(pid)} style={styles.icon} backgroundColor="red" name="minus" />
                         <Entypo.Button style={styles.icon} backgroundColor="green" name="plus" />
                     </View>
                 </View>

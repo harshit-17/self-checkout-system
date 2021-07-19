@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, StyleSheet, SafeAreaView, TextInput, Pressable, TouchableOpacity, ScrollView } from 'react-native'
-import { FontAwesome5, Ionicons } from '@expo/vector-icons'
+import { View, Text, StyleSheet, SafeAreaView, TextInput, Pressable, TouchableOpacity, ScrollView, FlatList } from 'react-native'
+import { Ionicons } from '@expo/vector-icons'
 import ItemCard from '../components/ItemCard'
 import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { adminReduceQuantity } from '../centralstore/actions/products'
 
 const Admin = (props) => {
     const setIsAdmin = props.setIsAdmin;
-    
+
     const submitHandler = () => {
         setIsAdmin(false);
     }
@@ -20,14 +22,13 @@ const Admin = (props) => {
     const renderList =({item, index})=>{
         if(item){
             return(
-                <ItemCard pid={item.pid} handleIncrease={handleIncrease} sr={index+1} pname={item.pname} qty = {item.pqty} />
+                <ItemCard pid={item.pid} handleDecrease={handleDecrease} sr={index+1} pname={item.pname} qty = {item.pqty} />
             )
         }
     }
     const dispatch = useDispatch()
 
-    const handleIncrease = (pid) =>{
-        // console.log("pressed")
+    const handleDecrease = (pid) =>{
         dispatch(adminReduceQuantity(pid))
         setRefe(refr+1)
     }
@@ -51,15 +52,11 @@ const Admin = (props) => {
                         <Text style={[styles.border, { flex: 0.2 }]}>Qty.</Text>
                         <Text style={[styles.border, { flex: 0.35 }]}>Actions</Text>
                     </View>
-                    {/* flatlist */}
                     { productList.length !== 0 ? <FlatList
                         data={productList}
                         keyExtractor = {(item)=>item.pid.toString()}
                         renderItem = {renderList}
-                    /> : <Text>Loading....</Text>}
-                    {/* <ScrollView nestedScrollEnabled={true}>
-                        <ItemCard sr='1' pname="Kurkure" qty="100" />
-                    </ScrollView> */}
+                    /> : <Text>No Items Yet</Text>}
                 </View>
                 <View style={[styles.but, { backgroundColor: '#00bfff', alignItems: 'center' }]}>
                     <TouchableOpacity style={styles.mybutton} onPress={submitHandler}>

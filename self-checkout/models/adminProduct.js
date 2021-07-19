@@ -1,11 +1,11 @@
 class adminProduct {
     constructor(id, name, price, weight, barcode, quantity) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
-        this.weight = weight;
-        this.barcode = barcode;
-        this.quantity = quantity;
+        this.pid = id;
+        this.pname = name;
+        this.pprice = price;
+        this.pweight = weight;
+        this.pbarcode = barcode;
+        this.pqty = quantity;
     }
 }
 

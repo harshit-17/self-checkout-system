@@ -70,7 +70,7 @@ const AddnewProduct = (props) => {
             Alert.alert('Wrong Inputs', 'Kindly correct the form', [{ text: 'Okay!' }])
             return;
         }
-        console.log(formState)
+        // console.log(formState)
         dispatch(createAdminProduct(formState.inputValues.pname, formState.inputValues.pprice, formState.inputValues.pweight, formState.inputValues.pbar, formState.inputValues.pqty))
         setIsAdmin(true);
     }
