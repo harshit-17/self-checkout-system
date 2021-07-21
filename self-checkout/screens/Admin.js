@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons'
 import ItemCard from '../components/ItemCard'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
-import { adminReduceQuantity } from '../centralstore/actions/products'
+import { adminReduceQuantity, adminIncreaseQuantity } from '../centralstore/actions/products'
 
 const Admin = (props) => {
     const setIsAdmin = props.setIsAdmin;
@@ -14,7 +14,7 @@ const Admin = (props) => {
     }
     const initial = useSelector(state => state.adminReducer)
     const [productList, setProductList] = useState([])
-    const [refr, setRefe] = useState(0)
+    const [refr, setRefe] = useState(true)
     useEffect(()=>{
         setProductList(initial)
     }, [refr])
@@ -22,15 +22,20 @@ const Admin = (props) => {
     const renderList =({item, index})=>{
         if(item){
             return(
-                <ItemCard pid={item.pid} handleDecrease={handleDecrease} sr={index+1} pname={item.pname} qty = {item.pqty} />
+                <ItemCard pid={item.pid} handleDecrease={handleDecrease} handleIncrease = {handleIncrease} sr={index+1} pname={item.pname} qty = {item.pqty} />
             )
         }
     }
     const dispatch = useDispatch()
 
+    const handleIncrease = (pid)=>{
+        dispatch(adminIncreaseQuantity(pid))
+        setRefe(!refr)
+    }
+
     const handleDecrease = (pid) =>{
         dispatch(adminReduceQuantity(pid))
-        setRefe(refr+1)
+        setRefe(!refr)
     }
 
     const handleSearch = (text)=>{

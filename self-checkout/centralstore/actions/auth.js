@@ -3,7 +3,7 @@ export const SIGNUP = 'SIGNUP'
 export const SIGNIN = 'SIGNIN'
 export const AUTHENTICATE = 'AUTHENTICATE'
 export const LOGOUT = 'LOGOUT'
-import apiKey from '../../env/googleApi'
+//import apiKey from '../../env/googleApi'
 
 let timer;
 
