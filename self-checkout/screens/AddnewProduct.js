@@ -4,7 +4,7 @@ import Input from '../components/Input'
 import MyButton from '../components/MyButton'
 import ValidationInput from '../components/ValidationInput'
 import { useDispatch } from 'react-redux'
-
+import BarcodeScanner from '../components/BarcodeScanner'
 import { createAdminProduct } from '../centralstore/actions/products'
 
 
@@ -34,6 +34,13 @@ const formReducer = (state, action) => {
 
 const AddnewProduct = (props) => {
     const setIsAdmin = props.setIsAdmin;
+    const [openScanner, setOpenScanner] = useState(false)
+    const [barVal, setBarVal] = useState('')
+    const openScannerHandler = () => {
+        setOpenScanner((oldValue) => {
+            return !oldValue
+        });
+    }
     const dispatch = useDispatch();
 
     const [formState, dispatchFormState] = useReducer(formReducer, {
@@ -124,6 +131,7 @@ const AddnewProduct = (props) => {
                     initialValue=""
                     onInputChange={inputChangeHandler}
                     labelStyle={styles.labelStyle}
+                    value={barVal}
                 />
                 <ValidationInput
                     id="pqty"
@@ -137,7 +145,8 @@ const AddnewProduct = (props) => {
                     labelStyle={styles.labelStyle}
                 />
                 <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
-                    <MyButton label={'Scan Bar Code'} buttonStyles={styles.sbutton} textStyles={styles.textStyle} />
+                    <MyButton label={'Scan Bar Code'} buttonStyles={styles.sbutton} textStyles={styles.textStyle} onPress={openScannerHandler} />
+                    {openScanner && <BarcodeScanner setBarVal={setBarVal} />}
                     <MyButton onPress={submitHandler} label={'Submit'} buttonStyles={styles.mbutton} textStyles={styles.textStyle} />
                 </View>
             </View>
