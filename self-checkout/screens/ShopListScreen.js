@@ -1,15 +1,23 @@
-import React from 'react'
-import { View, Text, StyleSheet, Platform } from 'react-native'
+import React, { useState } from 'react'
+import { View, Text, StyleSheet, Platform, Button } from 'react-native'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import HeaderButton from '../components/HeaderButton'
+import BarcodeScanner from '../components/BarcodeScanner'
 
 const ShopListScreen = (props) => {
+  const [openScanner, setOpenScanner] = useState(false)
+  const openScannerHandler = () => {
+    setOpenScanner((oldValue) => {
+      return !oldValue
+    });
+  }
   return (
     //will keep a list of cartItems card.
-    <View style={styles.screen}>
-      <Text>Purchased Items come here!</Text>
-    </View>
-  )
+    <>
+      <Button title={openScanner ? 'Close Scanner' : 'Open Scanner'} onPress={openScannerHandler} />
+      {openScanner && <BarcodeScanner />}
+    </>
+  );
 }
 ShopListScreen.navigationOptions = (navData) => {
   return {

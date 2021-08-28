@@ -149,9 +149,15 @@ const AdminNavigator = createStackNavigator(
 )
 
 const ShopNavigator = createSwitchNavigator({
+<<<<<<< HEAD
   // Startup: StartupScreen,
   // Auth: AuthNavigator,
   // Admin: AdminNavigator,
+=======
+  Startup: StartupScreen,
+  Admin: AdminNavigator,
+  Auth: AuthNavigator,
+>>>>>>> 63e2662ee983b8ffabfd0675c1f0f91d9d65a546
   Shop: MainNavigator,
 })
 export default createAppContainer(ShopNavigator)
