@@ -12,6 +12,7 @@ import Register from './screens/Register'
 import authReducer from './centralstore/reducers/auth'
 import NavigationContainer from './navigation/navigationContainer'
 import {adminReducer} from './centralstore/reducers/products'
+import BarcodeScanner from './components/BarcodeScanner'
 LogBox.ignoreAllLogs()
 
 const rootReducer = combineReducers({
@@ -26,7 +27,8 @@ export default function App() {
   return (
     <Provider store={store}>
       {/* <Register /> */}
-      <NavigationContainer />
+      {/* <NavigationContainer /> */}
+      <BarcodeScanner/>
     </Provider>
   )
 
