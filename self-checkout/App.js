@@ -8,12 +8,11 @@ import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import ReduxThunk from 'redux-thunk'
 import { LogBox } from 'react-native'
-import Register from './screens/Register'
+// import Register from './screens/Register'
 import authReducer from './centralstore/reducers/auth'
 import NavigationContainer from './navigation/navigationContainer'
-import {adminReducer} from './centralstore/reducers/products'
+import { adminReducer } from './centralstore/reducers/products'
 LogBox.ignoreAllLogs()
-
 const rootReducer = combineReducers({
   auth: authReducer,
   adminReducer: adminReducer
@@ -27,6 +26,7 @@ export default function App() {
     <Provider store={store}>
       {/* <Register /> */}
       <NavigationContainer />
+
     </Provider>
   )
 
