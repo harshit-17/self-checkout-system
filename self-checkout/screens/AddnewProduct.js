@@ -43,8 +43,6 @@ const AddnewProduct = (props) => {
         });
     }
     const dispatch = useDispatch();
-    const [openBarcode, setBarcode] = useState(false)
-    const [barVal, setBarVal] = useState("")
     const [formState, dispatchFormState] = useReducer(formReducer, {
         inputValues: {
             pname: '',
@@ -63,6 +61,9 @@ const AddnewProduct = (props) => {
         formIsValid: false
     });
 
+    const updateBarVal = (data)=>{
+        setBarVal(data)
+    }
 
     const inputChangeHandler = useCallback(
         (inputIdentifier, inputValue, inputValidity) => {
@@ -157,12 +158,9 @@ const AddnewProduct = (props) => {
                 />
                 <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
                     <MyButton label={'Scan Bar Code'} buttonStyles={styles.sbutton} textStyles={styles.textStyle} onPress={openScannerHandler} />
-                    {openScanner && <BarcodeScanner setBarVal={setBarVal} />}
+                    {openScanner && <BarcodeScanner setBarVal={{updateBarVal}} />}
                     <MyButton onPress={submitHandler} label={'Submit'} buttonStyles={styles.mbutton} textStyles={styles.textStyle} />
                 </View>
-            </View>
-            <View style={{flex: 1}}>
-            {openBarcode && <BarCodeScanner changeBarVal = {changeBarVal} changeState = {setBarcode}/>}
             </View>
         </ScrollView>
     )
