@@ -17,7 +17,7 @@ A self checkout system enables customers to do shopping without having to wait f
 5. Inside the repository, do `cd self-checkout`
 6. run `npm install` to download the node modules containing the required dependencies.
 7. In your terminal, run `npm start`
-8. Open your Expo App to scan the QR Code that opens up in a browser window once you run `npm install`
+8. Open your Expo App to scan the QR Code that opens up in a browser window once you run `npm start`
 9. Have Fun enjoying the App!
 
 # Later on we will be publishing this app on the Expo App Store.
