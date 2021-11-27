@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 
-export default function App({ setBarVal }) {
+const BarcodeScanner = ({changeBarVal, toggleScanner}) => {
     const [hasPermission, setHasPermission] = useState(null);
     const [scanned, setScanned] = useState(false);
 
@@ -14,9 +14,11 @@ export default function App({ setBarVal }) {
     }, []);
 
     const handleBarCodeScanned = ({ type, data }) => {
+        console.log(data)
         setScanned(true);
-        setBarVal(data);
         alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+        toggleScanner(false)
+        changeBarVal(data);
     };
 
     if (hasPermission === null) {
@@ -38,9 +40,12 @@ export default function App({ setBarVal }) {
 }
 const styles = StyleSheet.create({
     container: {
-        width: '50%',
-        height: '50%',
+        width: '100%',
+        height: '100%',
         flexDirection: 'column',
         justifyContent: 'center',
     },
 });
+
+
+export default BarcodeScanner;

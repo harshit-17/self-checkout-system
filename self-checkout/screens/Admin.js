@@ -47,7 +47,7 @@ const Admin = (props) => {
         <SafeAreaView style={{ flex: 1 }}>
             <View style={styles.container} >
                 <View style={styles.searchCont}>
-                    <TextInput style={{ color: "black" }} placeholderTextColor={'black'} style={styles.textinput} onChangeText={handleSearch} placeholder="Search..." />
+                    <TextInput style={{color: 'red'}} placeholderTextColor={'black'} style={styles.textinput} onChangeText ={handleSearch} placeholder="Search..." />
                     <Ionicons name="search" size={45} style={styles.iconSearch} />
                 </View>
                 <View style={styles.prodCont}>
