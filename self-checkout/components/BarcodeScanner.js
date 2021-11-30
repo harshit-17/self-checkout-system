@@ -16,9 +16,9 @@ const BarcodeScanner = ({changeBarVal, toggleScanner}) => {
     const handleBarCodeScanned = ({ type, data }) => {
         console.log(data)
         setScanned(true);
-        alert(`Bar code with type ${type} and data ${data} has been scanned!`);
-        toggleScanner(false)
+        // toggleScanner(false)
         changeBarVal(data);
+        alert(`Bar code with type ${type} and data ${data} has been scanned!`);
     };
 
     if (hasPermission === null) {
@@ -34,7 +34,7 @@ const BarcodeScanner = ({changeBarVal, toggleScanner}) => {
                 onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
                 style={StyleSheet.absoluteFillObject}
             />
-            {/* {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />} */}
+            {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />}
         </View>
     );
 }

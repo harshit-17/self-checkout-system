@@ -4,12 +4,19 @@ import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import HeaderButton from '../components/HeaderButton'
 import BarcodeScanner from '../components/BarcodeScanner'
 import ItemCard from '../components/ItemCard'
-import { products } from '../components/prodcuts'
+import { useDispatch } from 'react-redux'
+import axios from 'axios'
+import { apiEndPoint } from '../env/googleApi'
+import AdminProduct from '../models/adminProduct'
+//import { products } from '../components/prodcuts'
 
 
 const ShopListScreen = (props) => {
+  const dispatch = useDispatch();
   const [openScanner, setOpenScanner] = useState(false)
-  const [myProducts, setMyProducts] = useState([])
+  const [refr, setRefr] = useState(true)
+  const [allProducts, setAllProducts] = useState([])
+  const [userProducts, setUserProducts] = useState([])
   const [barVal, setBarVal] = useState("")
   const [totalWeight, setTotalWeight] = useState(0)
   const [totalPrice, setTotalPrice] = useState(0)
@@ -23,68 +30,120 @@ const ShopListScreen = (props) => {
   const changeBarVal = (text)=>{
     console.log(text)
     setBarVal(text)
-    scanItems()
-
+    scanItems(text)
   }
-  const scanItems = ()=>{
-    let initialProducts = myProducts
 
+  const getAdminData = async ()=>{
+    let resData = await axios.get(`${apiEndPoint}/adminProducts.json`)
+    // console.log(res.data)
+    resData = resData.data
+    const fetchProducts = [];
+    for (const key in resData) {
+        const attr = resData[key];
+        fetchProducts.push(new AdminProduct(
+            key,
+            attr.pname,
+            attr.pprice,
+            attr.pweight,
+            attr.pbarcode,
+            attr.pqty
+        ))
+    };
+    console.log(fetchProducts)
+    setAllProducts(fetchProducts)
+    // const res = dispatch(fetchAdminProducts())
+    // console.log(res)
+  }
+
+  useEffect(()=>{
+    getAdminData()
+  }, [])
+  
+  const scanItems = (barVal)=>{
+    let initialProducts = userProducts
+    //console.log(allProducts)
     let flag1 = 0, flag2 = 0;
     initialProducts.forEach((item, index)=>{
-      if(item["barcode"] === barVal && !flag1 ){
-        initialProducts[index]["qty"]+= 1
+      if(item["pbarcode"] === barVal && !flag1 ){
+        initialProducts[index]["pqty"]+= 1
         console.log(initialProducts)
         flag1 = 1
         return false;
       }
     })
     if(!flag1){
-      products.map((item, index)=>{
-        if(!flag2 && item.barcode === barVal){
+      allProducts.map((item, index)=>{
+        console.log("item",item.pbarcode===barVal)
+        if(!flag2 && item.pbarcode === barVal){
           let temp = item;
-          temp.qty = 1;
+          temp.pqty = 1;
           initialProducts.push(temp)
           flag2 =1;
           return false
         }
       })
     }
-    else if(!flag1 && !flag2)
+    if(flag1===0 && flag2===0)
     {
       alert("Barcode is incorrectly scanned");
     }
-    setMyProducts(initialProducts)
-    let weight = 0;
-    initialProducts.map((item)=>{
-      weight += (parseFloat(item.weight) * parseFloat(item.qty)  )
-    })
-    let price = 0;
-    initialProducts.map((item)=>{
-      price += (parseFloat(item.price) * parseFloat(item.qty)  )
-    })
-    setTotalPrice(price)
-    setTotalWeight(weight)
+    else{
+      setUserProducts(initialProducts)
+      setBarVal("")
+      setPandW()
+    }
   }
-  const getWeight = ()=>{
-    let weight = 0;
-    myProducts.map((item)=>{
-      weight += (parseFloat(item.weight) * parseFloat(item.qty)  )
-    })
-    return weight;
+
+  const handleDecrease = (pid)=>{
+    let initialProducts = userProducts;
+    for(let i in initialProducts)
+    {
+      if(initialProducts[i].pid === pid){
+        initialProducts[i].pqty -= 1;
+        if(initialProducts[i].pqty === 0)
+        {
+          initialProducts.splice(i,1)
+        }
+        break;
+      }
+    }
+    console.log(initialProducts)
+    setUserProducts(initialProducts)
+    setPandW()
+    // setRefr(!refr)
   }
-  const getPrice = ()=>{
-    let weight = 0;
-    myProducts.map((item)=>{
-      weight += (parseFloat(item.weight) * parseFloat(item.qty)  )
-    })
-    return price
+
+  const handleIncrease = (pid) =>{
+    let initialProducts = userProducts;
+    for(let i in initialProducts)
+    {
+      if(initialProducts[i].pid === pid){
+        initialProducts[i].pqty += 1;
+        break;
+      }
+    }
+    console.log(initialProducts)
+    setUserProducts(initialProducts)
+    setPandW()
+    // setRefr(!refr)
   }
+
   const renderList = ({ item, index }) => {
       if (item) {
           return (
-              <ItemCard pid={item.pid} sr={index + 1} pname={item.name} qty={item.qty} />
+              <ItemCard pid={item.pid} sr={index + 1} pname={item.pname} qty={item.pqty} handleDecrease={handleDecrease} handleIncrease = {handleIncrease} />
           )
       }
+  }
+
+  const setPandW= ()=>{
+    let p=0, w= 0;
+    for(let i in userProducts){
+      p+= userProducts[i].pprice * userProducts[i].pqty;
+      w += userProducts[i].pweight * userProducts[i].pqty;
+    }
+    setTotalPrice(p);
+    setTotalWeight(w);
   }
 
   return (
@@ -99,8 +158,8 @@ const ShopListScreen = (props) => {
             <Text style={[styles.border, { flex: 0.2 }]}>Qty.</Text>
             <Text style={[styles.border, { flex: 0.35 }]}>Actions</Text>
         </View>
-        {myProducts.length !== 0 ? <FlatList
-            data={myProducts}
+        {userProducts.length !== 0 ? <FlatList
+            data={userProducts}
             keyExtractor={(item) => item.pid.toString()}
             renderItem={renderList}
         /> : <Text>No Items Yet</Text>}

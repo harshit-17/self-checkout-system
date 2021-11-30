@@ -1,6 +1,6 @@
 import AdminProduct from "../../models/adminProduct";
-
-const apiEndPoint = 'https://self-checkout-system-capstone-default-rtdb.firebaseio.com';
+import { apiEndPoint } from "../../env/googleApi";
+//const apiEndPoint = 'https://self-checkout-system-capstone-default-rtdb.firebaseio.com';
 
 export const ADMIN_UPDATE_PRODUCT_QUANTITY = 'ADMIN/UPDATEPRODUCTQUANTITY';
 export const ADMIN_CREATE_PRODUCT = 'ADMIN/CREATEPRODUCT';
