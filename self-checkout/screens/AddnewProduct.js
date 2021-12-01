@@ -63,6 +63,7 @@ const AddnewProduct = (props) => {
 
     const inputChangeHandler = useCallback(
         (inputIdentifier, inputValue, inputValidity) => {
+            console.log(inputIdentifier, inputValidity, inputValue)
             dispatchFormState({
                 type: FORM_INPUT_UPDATE,
                 value: inputValue,
@@ -83,6 +84,7 @@ const AddnewProduct = (props) => {
 
     const changeBarVal = (text)=>{
         setBarVal(text)
+        inputChangeHandler("pbar", text, "true")
     }
 
     const barcodeHandler = ()=>{
@@ -154,7 +156,7 @@ const AddnewProduct = (props) => {
                 />
                 <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
                     <MyButton label={'Scan Bar Code'} buttonStyles={styles.sbutton} textStyles={styles.textStyle} onPress={openScannerHandler} />
-                    {openScanner && <BarcodeScanner changeBarVal={changeBarVal} />}
+                    {openScanner && <BarcodeScanner changeBarVal={changeBarVal} toggleScanner={()=>{}}/>}
                     <MyButton onPress={submitHandler} label={'Submit'} buttonStyles={styles.mbutton} textStyles={styles.textStyle} />
                 </View>
             </View>
