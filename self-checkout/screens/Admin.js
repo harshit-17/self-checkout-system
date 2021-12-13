@@ -5,6 +5,8 @@ import ItemCard from '../components/ItemCard';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { adminUpdateQuantity, fetchAdminProducts } from '../centralstore/actions/products';
+import HeaderButton from '../components/HeaderButton';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 const Admin = (props) => {
     const setIsAdmin = props.setIsAdmin;
@@ -77,6 +79,25 @@ const Admin = (props) => {
     )
 }
 
+Admin.navigationOptions = (navData)=>{
+    return{
+        headerTitle: 'Administrator' ,
+        headerRight: () => {
+            return (
+                <HeaderButtons HeaderButtonComponent={HeaderButton}>
+                    <Item
+                        iconName={Platform.OS === 'android' ? 'md-wallet' : 'ios-wallet'}
+                        title='ProceedCheckout'
+                        onPress={() => {
+                            navData.navigation.navigate('Checkout')
+                        }}
+                    />
+                </HeaderButtons>
+            )
+        },
+    }
+}
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -136,5 +157,6 @@ const styles = StyleSheet.create({
         flex: 0.1
     }
 })
+
 
 export default Admin
