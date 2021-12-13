@@ -83,7 +83,11 @@ const Register = (props) => {
                     authActions.signin(
                         formState.inputValues.email, formState.inputValues.password)
                 )
-                props.navigation.navigate('Shop')
+                if (formState.inputValues.email === 'admin@admin.com') {
+                    props.navigation.navigate('Admin')
+                } else {
+                    props.navigation.navigate('Shop')
+                }
 
             } catch (err) {
                 setIsError(err.message)
@@ -105,7 +109,7 @@ const Register = (props) => {
         },
         [dispatchFormState]
     );
-    const switchSignup = ()=>{
+    const switchSignup = () => {
         setIsSignUp(prevState => !prevState)
     }
 
@@ -171,7 +175,7 @@ const Register = (props) => {
                     {isSignup && 'Already have an account'}
                     {!isSignup && 'Do not have an account'}
                 </Text>
-                <MyButton label={`Switch to ${isSignup ? 'Login' : 'Sign up'}`} buttonStyles={{backgroundColor: 'yellow'}} textStyles={{color: 'black'}} onPress = {switchSignup} />
+                <MyButton label={`Switch to ${isSignup ? 'Login' : 'Sign up'}`} buttonStyles={{ backgroundColor: 'yellow' }} textStyles={{ color: 'black' }} onPress={switchSignup} />
                 {/* <Button title={`Switch to ${isSignup ? 'Login' : 'Sign up'}`} color='yellow' onPress={() => {
                     setIsSignUp(prevState => !prevState);
                 }} /> */}

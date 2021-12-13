@@ -1,37 +1,34 @@
-import { CREATE_ADMIN_PRODUCT } from '../actions/products'
-import adminProduct from "../../models/adminProduct"
+import { 
+    ADMIN_CREATE_PRODUCT,
+    ADMIN_UPDATE_PRODUCT_QUANTITY,
+    ADMIN_FETCH_PRODUCTS,
+    ADMIN_DELETE_PRODUCT
+} from '../actions/products';
+import AdminProduct from "../../models/adminProduct"
 
 const initialStateAdmin = []
 
 export const adminReducer = (state = initialStateAdmin, action) => {
     switch (action.type) {
-        case "ADMIN/REDUCEQUANTITY":
-            var newState = state
-            state.every((item, index)=>{
-                if(action.payload.toString() === item.pid.toString()){
-                    newState[index].pqty = Number(newState[index].pqty) - 1
-                    if(Number(newState[index].pqty) === 0)
-                    {
-                        newState.splice(index, 1)
-                    }
-                    return false
-                }else{
-                    return true;
+        case ADMIN_UPDATE_PRODUCT_QUANTITY:
+            let newState = state;
+            for(let i=0; i < newState.length; i++){
+                if (newState[i].pid === action.pid) {
+                    newState[i].pqty = action.updatedProduct.pqty;
+                    break;
                 }
-            })
-            return newState
+            }
+            return newState;
 
-        case "ADMIN/INCREASEQUANTITY":
-            var newState = state
-            state.forEach((item, index)=>{
-                if(action.payload.toString() === item.pid.toString()){
-                    newState[index].pqty = Number(newState[index].pqty) + 1
-                }
-            })
-            return newState
+        case ADMIN_CREATE_PRODUCT:
+            return [...state, new AdminProduct(action.id, action.name, action.price, action.weight, action.barcode, action.quantity)]
 
-        case CREATE_ADMIN_PRODUCT:
-            return [...state, new adminProduct(action.id, action.name, action.price, action.weight, action.barcode, action.quantity)]
+        case ADMIN_FETCH_PRODUCTS:
+            return action.loadedProducts
+
+        case ADMIN_DELETE_PRODUCT:
+            return state.filter((item) => item.pid !== action.id);
+
         default:
             return state
     }

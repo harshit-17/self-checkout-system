@@ -1,4 +1,4 @@
-class adminProduct {
+class AdminProduct {
     constructor(id, name, price, weight, barcode, quantity) {
         this.pid = id;
         this.pname = name;
@@ -9,4 +9,4 @@ class adminProduct {
     }
 }
 
-export default adminProduct
+export default AdminProduct
