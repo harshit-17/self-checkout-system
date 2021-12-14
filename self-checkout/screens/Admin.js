@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, TextInput, Pressable, TouchableOpacity, ScrollView, FlatList } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, TextInput, Pressable, Modal, TouchableOpacity, ScrollView, FlatList, Button } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import ItemCard from '../components/ItemCard';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
+import * as authActions from '../centralstore/actions/auth'
 import { adminUpdateQuantity, fetchAdminProducts } from '../centralstore/actions/products';
+import AddnewProduct from './AddnewProduct'
 
 const Admin = (props) => {
     const setIsAdmin = props.setIsAdmin;
+    const [modalVisible, setModalVisible] = useState(false);
 
     const submitHandler = () => {
         setIsAdmin(false);
@@ -47,9 +50,25 @@ const Admin = (props) => {
         setProductList(newList)
     }
 
+    const logoutHandler = () => {
+        dispatch(authActions.logout());
+    }
+
+    const setModal = ()=>{
+        setModalVisible(false)
+    }
+
     return (
         <SafeAreaView style={{ flex: 1 }}>
+            <Modal 
+                visible = {modalVisible} 
+                animationType='slide' 
+                onRequestClose={()=>{setModalVisible(false)}}
+            >
+                <AddnewProduct setModal = {setModal} />
+            </Modal>
             <View style={styles.container} >
+                <Button title="Logout" onPress={logoutHandler} />
                 <View style={styles.searchCont}>
                     <TextInput style={{color: 'red'}} placeholderTextColor={'black'} style={styles.textinput} onChangeText ={handleSearch} placeholder="Search..." />
                     <Ionicons name="search" size={45} style={styles.iconSearch} />
@@ -68,7 +87,7 @@ const Admin = (props) => {
                     /> : <Text>No Items Yet</Text>}
                 </View>
                 <View style={[styles.but, { backgroundColor: '#00bfff', alignItems: 'center' }]}>
-                    <TouchableOpacity style={styles.mybutton} onPress={submitHandler}>
+                    <TouchableOpacity style={styles.mybutton} onPress={()=>{setModalVisible(true)}}>
                         <Text style={{ color: 'white' }}>Add new Product</Text>
                     </TouchableOpacity>
                 </View>
@@ -136,5 +155,6 @@ const styles = StyleSheet.create({
         flex: 0.1
     }
 })
+
 
 export default Admin

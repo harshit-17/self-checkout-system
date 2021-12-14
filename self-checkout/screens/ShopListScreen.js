@@ -233,8 +233,8 @@ const ShopListScreen = (props) => {
         /> : <Text>No Items Yet</Text>}
       </View>
       <View>
-        <Text>Total Weight : {totalWeight}</Text> 
-        <Text>Total Price : {totalPrice}</Text>
+        <Text>Total Weight : {totalWeight}g</Text> 
+        <Text>Total Price : Rs.{totalPrice}</Text>
       </View>
       <Button title={"Checkout"} onPress={()=>{Alert.alert(
         "Complete Shopping",
