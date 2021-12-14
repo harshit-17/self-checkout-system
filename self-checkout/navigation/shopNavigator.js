@@ -141,10 +141,10 @@ const AuthNavigator = createStackNavigator(
 
 const AdminNavigator = createStackNavigator(
   {
-    Admin: AdminWrapper
+    Admin: AdminScreen
   },
   {
-    defaultNavigationOptions: defNavSettings
+    defaultNavigationOptions: defNavSettings,
   }
 )
 

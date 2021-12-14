@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, TextInput, Pressable, TouchableOpacity, ScrollView, FlatList } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, TextInput, Pressable, TouchableOpacity, ScrollView, FlatList, Button } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import ItemCard from '../components/ItemCard';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
+import * as authActions from '../centralstore/actions/auth'
 import { adminUpdateQuantity, fetchAdminProducts } from '../centralstore/actions/products';
 import HeaderButton from '../components/HeaderButton';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
@@ -49,9 +50,14 @@ const Admin = (props) => {
         setProductList(newList)
     }
 
+    const logoutHandler = () => {
+        dispatch(authActions.logout());
+    }
+
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <View style={styles.container} >
+                <Button title="Logout" onPress={logoutHandler} />
                 <View style={styles.searchCont}>
                     <TextInput style={{color: 'red'}} placeholderTextColor={'black'} style={styles.textinput} onChangeText ={handleSearch} placeholder="Search..." />
                     <Ionicons name="search" size={45} style={styles.iconSearch} />
@@ -77,25 +83,6 @@ const Admin = (props) => {
             </View>
         </SafeAreaView>
     )
-}
-
-Admin.navigationOptions = (navData)=>{
-    return{
-        headerTitle: 'Administrator' ,
-        headerRight: () => {
-            return (
-                <HeaderButtons HeaderButtonComponent={HeaderButton}>
-                    <Item
-                        iconName={Platform.OS === 'android' ? 'md-wallet' : 'ios-wallet'}
-                        title='ProceedCheckout'
-                        onPress={() => {
-                            navData.navigation.navigate('Checkout')
-                        }}
-                    />
-                </HeaderButtons>
-            )
-        },
-    }
 }
 
 const styles = StyleSheet.create({
