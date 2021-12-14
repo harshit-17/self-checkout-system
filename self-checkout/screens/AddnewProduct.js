@@ -33,8 +33,8 @@ const formReducer = (state, action) => {
     return state
 }
 
-const AddnewProduct = (props) => {
-    const setIsAdmin = props.setIsAdmin;
+const AddnewProduct = ({setModal}) => {
+    //const setIsAdmin = props.setIsAdmin;
     const [openScanner, setOpenScanner] = useState(false)
     const [barVal, setBarVal] = useState('')
     const openScannerHandler = () => {
@@ -79,7 +79,7 @@ const AddnewProduct = (props) => {
         }
         // console.log(formState)
         dispatch(createAdminProduct(formState.inputValues.pname, formState.inputValues.pprice, formState.inputValues.pweight, formState.inputValues.pbar, formState.inputValues.pqty))
-        setIsAdmin(true);
+        setModal();
     }
 
     const changeBarVal = (text)=>{
@@ -156,9 +156,9 @@ const AddnewProduct = (props) => {
                 />
                 <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
                     <MyButton label={'Scan Bar Code'} buttonStyles={styles.sbutton} textStyles={styles.textStyle} onPress={openScannerHandler} />
-                    {openScanner && <BarcodeScanner changeBarVal={changeBarVal} toggleScanner={()=>{}}/>}
                     <MyButton onPress={submitHandler} label={'Submit'} buttonStyles={styles.mbutton} textStyles={styles.textStyle} />
                 </View>
+                {openScanner && <BarcodeScanner changeBarVal={changeBarVal} toggleScanner={()=>{}}/>}
             </View>
         </ScrollView>
     )
