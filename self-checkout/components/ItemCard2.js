@@ -28,7 +28,7 @@ const ItemCard2 = ({orderList, index, toggleModal})=>{
                     Total Price = Rs.{totalP}
                 </Text>
                 <Text style = {styles.text}>
-                    Total Weight = {totalP}g
+                    Total Weight = {totalW}g
                 </Text>
             </View>
         </TouchableOpacity>
