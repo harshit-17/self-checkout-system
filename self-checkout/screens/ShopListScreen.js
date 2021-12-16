@@ -21,6 +21,7 @@ const ShopListScreen = (props) => {
   const [barVal, setBarVal] = useState("")
   const [totalWeight, setTotalWeight] = useState(0)
   const [totalPrice, setTotalPrice] = useState(0)
+  const [refresh, setRefresh] = useState(false)
   
 
   const openScannerHandler = () => {
@@ -73,7 +74,7 @@ const ShopListScreen = (props) => {
             attr.pqty
         ))
     };
-    console.log(fetchProducts)
+    //console.log(fetchProducts)
     setAllProducts(fetchProducts)
     // const res = dispatch(fetchAdminProducts())
     // console.log(res)
@@ -91,11 +92,11 @@ const ShopListScreen = (props) => {
     let initialProducts = userProducts
     //console.log(allProducts)
     let flag1 = 0, flag2 = 0;
-    console.log(initialProducts)
+    //console.log(initialProducts)
     initialProducts.forEach((item, index)=>{
       if(item["pbarcode"] === barVal && !flag1 ){
         initialProducts[index]["pqty"]+= 1
-        console.log(initialProducts)
+        //console.log(initialProducts)
         flag1 = 1
         return false;
       }
@@ -187,30 +188,53 @@ const ShopListScreen = (props) => {
   const completeShopping = async ()=>{
     let initialProducts = userProducts;
     const userId = JSON.parse(await AsyncStorage.getItem('userData')).userId;
+    //console.log(initialProducts)
+    if(initialProducts.length === 0){
+      alert("Nothing to checkout")
+      return;
+    }
     //const order = await axios.get(`${apiEndPoint}/users/${userId}/orders.json`);
     let res = await axios.post(`${apiEndPoint}/users/${userId}/orders.json`, JSON.stringify(initialProducts))
-    console.log(res.status === 200)
+    //console.log(res.status === 200)
     if(res.status === 200){
       let response = await axios.delete(`${apiEndPoint}/users/${userId}/currentOrder.json`);
       //await axios.post(`${apiEndPoint}/users/${userId}`)
       setUserProducts([])
-      setPandW()
       await axios.put(`${apiEndPoint}/trolley/1.json`, JSON.stringify(0))
-      console.log(response)
+      let po = await axios.get(`${apiEndPoint}/totalPrice.json`);
+      console.log(totalPrice);
+      if(po.data !== null)
+      {
+        await axios.put(`${apiEndPoint}/totalPrice.json`, JSON.stringify(parseFloat(po.data)+totalPrice));
+      }else{
+        await axios.post(`${apiEndPoint}/totalPrice,json`, JSON.stringify(totalPrice));
+      }
+      //await setPandW()
+      setTotalPrice(0);
+      setTotalWeight(0);
+      
+      //console.log(response)
     }else{
       alert("Please retry")
     }
   }
 
   const setPandW= async ()=>{
-    let p=0, w= 0;
+    let p = 0, w = 0;
     for(let i in userProducts){
-      p+= userProducts[i].pprice * userProducts[i].pqty;
+      p += userProducts[i].pprice * userProducts[i].pqty;
       w += userProducts[i].pweight * userProducts[i].pqty;
     }
     setTotalPrice(p);
     setTotalWeight(w);
     await axios.put(`${apiEndPoint}/trolley/1.json`, JSON.stringify(w))
+    
+  }
+
+  const refreshData = async()=>{
+    setRefresh(true);
+    await getAdminData();
+    setRefresh(false);
   }
 
   return (
@@ -227,6 +251,10 @@ const ShopListScreen = (props) => {
         </View>
         {/* <RefreshControl refreshing={true} colors ={['red']} title="Hello these" progressViewOffset={5} /> */}
         {userProducts.length !== 0 ? <FlatList
+            refreshControl={<RefreshControl
+              refreshing = {refresh}
+              onRefresh={refreshData}
+            />}
             data={userProducts}
             keyExtractor={(item) => item.pid.toString()}
             renderItem={renderList}

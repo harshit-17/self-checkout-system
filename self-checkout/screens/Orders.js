@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { StyleSheet, View, Text, FlatList, Modal} from 'react-native';
+import { StyleSheet, View, Text, FlatList, Modal, RefreshControl} from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import HeaderButton from '../components/HeaderButton';
 import axios from 'axios';
@@ -12,16 +12,18 @@ import { Entypo } from '@expo/vector-icons';
 
 const Orders = (props) => {
 
-    const [orders, setOrders] = useState([])
-    const [modalVisible, setModalVisible] = useState(false)
-    const [modalList, setModalList] = useState([])
+    const [orders, setOrders] = useState([]);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [modalList, setModalList] = useState([]);
+    const [refresh, setRefresh] = useState(false);
+    const [refr, setRefr] = useState(true)
 
 
     const getData = async () => {
         let userData = await AsyncStorage.getItem("userData");
         let user = JSON.parse(userData).userId;
         let res = await axios.get(`${apiEndPoint}/users/${user}/orders.json`);
-        //console.log(res.data);
+        console.log(res.data);
         let list = []
         let o = res.data
         for(let i in o){
@@ -30,6 +32,7 @@ const Orders = (props) => {
         
         list.reverse()
         setOrders(list)
+        setRefr(!refr)
         // implement the conversion of object to array
         // setOrders(res.data)
     }
@@ -62,6 +65,12 @@ const Orders = (props) => {
         }
     }
 
+    const refreshData = async()=>{
+        setRefresh(true);
+        await getData();
+        setRefresh(false);
+    }
+
     return (
         <View style={styles.screen}>
             <Modal
@@ -88,6 +97,10 @@ const Orders = (props) => {
             {
                 orders.length === 0 ? <Text>No orders to display.</Text> :
                 <FlatList
+                    refreshControl={<RefreshControl
+                        refreshing = {refresh}
+                        onRefresh={refreshData}
+                    />}
                     data={orders}
                     renderItem={renderList}
                 /> 
