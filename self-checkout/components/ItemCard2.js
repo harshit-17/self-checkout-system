@@ -11,8 +11,8 @@ const ItemCard2 = ({orderList, index, toggleModal})=>{
         let w = 0;
         for(let i in orderList)
         {
-            p += parseFloat(orderList[i].pprice);
-            w += parseFloat(orderList[i].pweight);
+            p += parseFloat(orderList[i].pprice)*parseFloat(orderList[i].pqty);
+            w += parseFloat(orderList[i].pweight)*parseFloat(orderList[i].pqty);
         }
         //console.log(p, w);
         setTotalP(p);
