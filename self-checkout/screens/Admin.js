@@ -7,24 +7,35 @@ import { useDispatch } from 'react-redux';
 import * as authActions from '../centralstore/actions/auth'
 import { adminUpdateQuantity, fetchAdminProducts } from '../centralstore/actions/products';
 import AddnewProduct from './AddnewProduct'
+import axios from 'axios';
+import { apiEndPoint } from '../env/googleApi';
 
 const Admin = (props) => {
-    const setIsAdmin = props.setIsAdmin;
+    //const setIsAdmin = props.setIsAdmin;
     const [modalVisible, setModalVisible] = useState(false);
 
-    const submitHandler = () => {
-        setIsAdmin(false);
-    }
     const initial = useSelector(state => state.adminReducer)
     const [productList, setProductList] = useState(initial);
     const [refr, setRefe] = useState(true)
+    const [totalEarning, setTotalEarning] = useState(0);
+
+
+
+
     useEffect(() => {
+        getTotalEarning()
         setProductList(initial);
     }, [initial, refr]);
 
     useEffect(() => {
         setProductList(dispatch(fetchAdminProducts()));
     }, []);
+
+    const getTotalEarning = async()=>{
+        let res = await axios.get(`${apiEndPoint}/totalPrice.json`);
+        res = res.data;
+        setTotalEarning(res); 
+    }
 
     const renderList = ({ item, index }) => {
         if (item) {
@@ -36,12 +47,12 @@ const Admin = (props) => {
     const dispatch = useDispatch();
 
     const handleIncrease = async (pid) => {
-        await dispatch(adminUpdateQuantity(pid, "ADD"));
+        dispatch(adminUpdateQuantity(pid, "ADD"));
         setRefe(!refr);
     }
 
     const handleDecrease = async (pid) => {
-        await dispatch(adminUpdateQuantity(pid, "DELETE"));
+        dispatch(adminUpdateQuantity(pid, "DELETE"));
         setRefe(!refr);
     }
 
@@ -68,6 +79,7 @@ const Admin = (props) => {
                 <AddnewProduct setModal = {setModal} />
             </Modal>
             <View style={styles.container} >
+                <Text style={{marginBottom: 10}}>Total Earning - Rs. {totalEarning}</Text>
                 <Button title="Logout" onPress={logoutHandler} />
                 <View style={styles.searchCont}>
                     <TextInput style={{color: 'red'}} placeholderTextColor={'black'} style={styles.textinput} onChangeText ={handleSearch} placeholder="Search..." />
