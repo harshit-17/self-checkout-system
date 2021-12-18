@@ -23,11 +23,11 @@ A self checkout system enables customers to do shopping without having to wait f
 # Later on we will be publishing this app on the Expo App Store.
 ### Then you just need the expo app to scan the QR Code that would available on the expo app store. No hardwork setting things up in your local.
 
-## Documentation
-https://docs.google.com/document/d/1eco5QNgkpoh3rCYdd5ZOEeHm06mc2EadRfBw4bS2R8c/edit
+# Documentation
+[Uploading CPG119R_Self_Checkout_System (1).pdf…]()
 
-## Poster
-[poster.pdf](https://github.com/chaitanyaKaushal/self-checkout-system/files/7718820/poster.pdf)
+# Poster
+#[CPG119P_Self_Checkout_System (1).pdf](https://github.com/chaitanyaKaushal/self-checkout-system/files/7738720/CPG119P_Self_Checkout_System.1.pdf)
 
-## Presentation
-[capstone ppt.pptx](https://github.com/chaitanyaKaushal/self-checkout-system/files/7718827/capstone.ppt.pptx)
+# Presentation
+[Uploading CPG119PPT_Self_Checkout_System (1).pptx…]()
