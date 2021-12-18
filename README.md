@@ -27,7 +27,7 @@ A self checkout system enables customers to do shopping without having to wait f
 [Uploading CPG119R_Self_Checkout_System (1).pdf…]()
 
 # Poster
-#[CPG119P_Self_Checkout_System (1).pdf](https://github.com/chaitanyaKaushal/self-checkout-system/files/7738720/CPG119P_Self_Checkout_System.1.pdf)
+[CPG119P_Self_Checkout_System (1).pdf](https://github.com/chaitanyaKaushal/self-checkout-system/files/7738720/CPG119P_Self_Checkout_System.1.pdf)
 
 # Presentation
 [Uploading CPG119PPT_Self_Checkout_System (1).pptx…]()
